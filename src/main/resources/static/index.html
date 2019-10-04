@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+    <body style="background-image: url(https://cdn.pixabay.com/photo/2013/07/13/12/08/background-159244_960_720.png); background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+
+        <!--http://www.joventaoista.org/wp-content/uploads/2012/10/Imagen-fondo-aurora-celeste.png-->
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="font-family: serif">
+            <div class="container">
+                <a class="navbar-brand" >AREP: Secure Distributed Web App - AWS</a>
+                <br>
+                <a class="navbar-brand" >Amalia Alfonso</a>                
+            </div>
+        </nav>
+        <br><br><br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4" style="text-align: center; font-family: serif">
+
+                    <form class="form-horizontal" style="text-align: center">
+                        <fieldset>
+                            <legend class="text-center header">Iniciar Sesión</legend>
+
+                            <div class="form-group" style="text-align: center">
+                                <!--<img src="https://img.icons8.com/clouds/2x/user.png" style="width: 50%">-->
+                                <img src="https://img.icons8.com/clouds/2x/user.png" style="width: 50%">
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>                                
+                                <input id="pName" name="pName" type="text" placeholder="Usuario" class="form-control">                                
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                <div >
+                                    <input id="passw" name="responsable" type="password" placeholder="Contraseña" class="form-control">
+                                </div>
+                            </div>                           
+
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <form>
+                                        <button type="submit" class="btn btn-primary btn-lg" style="background-color: darkturquoise" onclick="savePetA()">Iniciar</button>
+                                        <button type="button" class="btn btn-primary btn-lg" style="background-color: darkturquoise" onclick="window.location.href='registrar.html'" >Registrar</button>                    
+                                        <table id="tablePets" class="table table-bordered" style="font-size: 18px; color: white; margin: 0 auto; padding: 1; margin-bottom: 30px; margin-top: 30px;">
+                                            <thead id="thead">                                        
+                                            </thead>
+                                            <tbody id="tb1">
+                                            </tbody>
+                                        </table>
+                                    </form>                                        
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>                                      
+
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </body>
+
+</html>
