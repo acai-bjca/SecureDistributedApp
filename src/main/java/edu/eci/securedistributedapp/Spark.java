@@ -5,9 +5,16 @@
  */
 package edu.eci.securedistributedapp;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spark.Response;
 import spark.Request;
 import static spark.Spark.*;
@@ -21,7 +28,7 @@ public class Spark {
     public static void main(String[] args) {
         port(getPort());
         staticFiles.location("/static");
-        secure("deploy/KeyStorege.jks", "secureApp1zy", null, null);
+        secure("deploy/KeyStorege.jks", "secureApp1zy", "deploy/truststore", "secureServer1zy");
         //get("/login", (req, res) -> "Hello Secure World");
 
         get("/", (request, response) -> {
@@ -31,6 +38,10 @@ public class Spark {
 
         get("/login", (request, response) -> {
             return login(request, response);
+        });
+
+        get("/date", (request, response) -> {
+            return getDateOfServer();
         });
 
         post("/register", (request, response) -> {
@@ -62,13 +73,13 @@ public class Spark {
         String passwordToVerify = request.queryParams("password");
         User user = hashCodes.get(userName);
         String hashCodesToVerify = sha.convert(passwordToVerify);
-        if(!hashCodes.containsKey(userName)){
+        if (!hashCodes.containsKey(userName)) {
             System.err.println("El usuario no existe");
             response.redirect("/notFound.html");
-        }else if (user.getPasswHash().equals(hashCodesToVerify)) {
+        } else if (user.getPasswHash().equals(hashCodesToVerify)) {
             System.err.println("Es correto");
             perfil = getProfile(user);
-        }else{
+        } else {
             perfil = "La contraseña es incorrecta.";
             System.out.println(perfil);
         }
@@ -113,11 +124,11 @@ public class Spark {
                 + "                            </div>\n"
                 + "                            <div class=\"card\" style=\"background-color: #ccdfea;\">\n"
                 + "                                <ul class=\"list-group list-group-flush\">\n"
-                + "                                    <li class=\"list-group-item\" style=\"background-color: #ccdfea;\">Usuario: "+user.getUser()+"</li>\n"
+                + "                                    <li class=\"list-group-item\" style=\"background-color: #ccdfea;\">Usuario: " + user.getUser() + "</li>\n"
                 + "                                    <br>\n"
-                + "                                    <li class=\"list-group-item\" style=\"background-color: #ccdfea;\">Nombre: "+user.getName()+"</li>\n"
+                + "                                    <li class=\"list-group-item\" style=\"background-color: #ccdfea;\">Nombre: " + user.getName() + "</li>\n"
                 + "                                    <br>\n"
-                + "                                    <li class=\"list-group-item\" style=\"background-color: #ccdfea;\">Correo: "+user.getEmail()+"</li>\n"
+                + "                                    <li class=\"list-group-item\" style=\"background-color: #ccdfea;\">Correo: " + user.getEmail() + "</li>\n"
                 + "                                    <br>\n"
                 + "                                </ul>\n"
                 + "                            </div>\n"
@@ -131,7 +142,7 @@ public class Spark {
                 + "                                </div>\n"
                 + "                            </div>\n"
                 + "                            <br>\n"
-                + "                            <label style=\"color: #99ffff; font-size: 1.2rem;\">Fecha: "+fecha+"</label>\n"
+                + "                            <label style=\"color: #99ffff; font-size: 1.2rem;\">Fecha: " + fecha + "</label>\n"
                 + "                        </fieldset>\n"
                 + "                    </form>\n"
                 + "                </div>\n"
@@ -141,6 +152,40 @@ public class Spark {
                 + "    </body>\n"
                 + "</html>";
         return profileHtml;
+    }
+
+    static {
+        //for localhost testing only
+        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
+                new javax.net.ssl.HostnameVerifier() {
+
+            public boolean verify(String hostname,
+                    javax.net.ssl.SSLSession sslSession) {
+                if (hostname.equals("localhost")) {
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private static String getDateOfServer() throws IOException {
+        String date = "";
+        try {
+            URL url = new URL("https://localhost:4568");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            String dataLine = "";
+            while ((dataLine = reader.readLine()) != null) {
+                date += dataLine;
+                //System.out.println(urlData);   
+            }
+            System.out.println("Fin main :" + date);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Spark.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Spark.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return date;
     }
 
     static int getPort() {
