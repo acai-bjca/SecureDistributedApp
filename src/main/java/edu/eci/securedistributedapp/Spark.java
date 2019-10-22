@@ -28,7 +28,7 @@ public class Spark {
     public static void main(String[] args) {
         port(getPort());
         staticFiles.location("/static");
-        secure("deploy/KeyStorege.jks", "secureApp1zy", "deploy/truststore", "secureServer1zy");
+        secure("deploy/keystoreapp.jks", "secureApp", "deploy/truststoreapp.jks", "secureAppT");
         //get("/login", (req, res) -> "Hello Secure World");
 
         get("/", (request, response) -> {
