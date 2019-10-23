@@ -1,0 +1,24 @@
+﻿Creación de certificado y keystore ServerDistributedApp:
+• keytool -genkey -keystore keystoreapp.jks -alias certapp -keyalg RSA -keysize 2048 -validity 3950 -dname "CN=www.distributedapp.com, OU=Sistemas, O=ECI, L=Bogotá, ST=Unknown, C=CO" -deststoretype pkcs12
+• keytool -selfcert -alias certapp -keystore keystoreapp.jks -validity 3950
+• keytool -export -alias certapp -keystore keystoreapp.jks -rfc -file certapp.cer
+
+
+• keytool -genkey -keystore keystoredate.jks -alias certdate -keyalg RSA -keysize 2048 -validity 3950 "CN=www.securedate.com, OU=Sistemas, O=ECI, L=Bogotá, ST=Unknown, C=CO" -deststoretype pkcs12
+• keytool -selfcert -alias certdate -keystore keystoredate.jks -validity 3950
+• keytool -export -alias certdate -keystore keystoredate.jks -rfc -file certdate.cer
+
+
+Generar trustore en ServerDistributedApp:
+• keytool -importcert -alias certapp -file certdate.cer -keystore truststoreapp.jks
+
+
+Validar Certificado en java:
+• keytool -importcert -trustcacerts -file certdate.cer -alias certdate -keystore "/usr/lib/jvm/java-8-openjdk/jre/lib/security/cacerts"
+	Contraseña: changeit
+Para encontrar la carpeta en el que está java: 
+• whereis java
+
+
+Si indica permiso denegado, ingresar a consola con permisos de root o usar comandosudo: 
+• clic derecho --> opciones root --> Terminal

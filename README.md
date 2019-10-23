@@ -1,55 +1,76 @@
-## Spark App 
+## Aplicación distribuida segura en todos sus frentes
 
-En este repositorio, se implementó una aplicación web con Spark desplegada en Heroku. Esta aplicación hace uso de un repositorio, antes creado, Ejercicio-1-AREP, el cual calcula la media y la desviación estándar, haciendo uso de una linked list, el cual puede encontrar en <https://github.com/acai-bjca/Ejercicio-1-AREP.git>.
+En este repositorio se desarrolló una aplicación segura con autenticación, autorización e integridad de usuarios. Cuando se accede por el browser, se hace de forma segura.  Adicionalmente, hace uso de otra aplicación de la cual usa un servicio que devuelve la fecha. 
+Para garantizar autenticación se maneja registro e inicio de sesión de usuarios.
+Al registrarse un usuario, la aplicación guarda un código hash de la contraseña, haciendo uso del algoritmo SHA para asegurar integridad. 
+Para iniciar sesión, se verifica que la contraseña ingresada, al aplicarle el mismo algoritmo, el resultado es igual al código guardado al registrarse. De esta manera se garantiza la autorización, para que al ingresar a su perfil se verifique que es quien dice ser y pueda ver su información.
 
-El link de la aplicación es: <https://sparkwebarep.herokuapp.com/>
+Para la segunda parte, se hace uso de un servicio externo, el cual es encuentra en este repositorio: <https://github.com/acai-bjca/SecureDateServer>, y se hace uso de certificados.
+Cada aplicación genera su propio certificado y lo almacena en un KeyStore, y la aplicación distribuida que hace uso del servicio externo, contiene un truestore con el certificado del sistema externo en el que confía, es decir la aplicación que le presta el servicio de fecha.
 
-![](src/main/resources/componentes.png)
+Una  vez se verificó el correcto funcionamiento entre las dos aplicaciones, se desplegaron en AWS.
 
-___
-### Insignias
+PAra más detallesdel desarrolo diríajase al archivo: <https://github.com/acai-bjca/SecureDistributedApp/blob/master/Articulo-AWS.pdf>
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/31b363d5a6fe4c9b8eb2d1cd22bc9c37)](https://www.codacy.com/app/acai-bjca/Ejercicio-1-AREP?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=acai-bjca/Ejercicio-1-AREP&amp;utm_campaign=Badge_Grade)
-___
-### Documentación
-
-Para leer la documentación diríjase a: <https://github.com/acai-bjca/SparkWebApp/tree/master/src/main/resources/documentacion/apidocs/edu/escuelaing/arep/spark>
+![](deploy/despliegue.PNG)
 
 ___
 ### Uso del proyecto como librería
-Si desea usar éste repositorio como librería en su proyecto, realice los siguientes pasos:
+Si desea usar alguno de los dos repositorios como librería en su proyecto, realice los siguientes pasos:
 
-• Descargue o clone él repositorio SparkWebApp: <https://github.com/acai-bjca/SparkWebApp.git>
+• Descargue o clone él repositorio
+	- SecureDistributedApp: <https://github.com/acai-bjca/SecureDistributedApp.git>
+	- SecureDateServer: <https://github.com/acai-bjca/SecureDateServer.git>
 
-• Agregue la siguiente dependencia al pom de su proyecto:
+• Agregue la respectiva dependencia al pom de su proyecto:
 ``` xml
  <dependency>
-	<groupId>edu.escuelaing.arep</groupId>
-    <artifactId>SparkWebApp</artifactId>
+	<groupId>edu.eci</groupId>
+    <artifactId>SecureDistributedApp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+``` xml
+ <dependency>
+	<groupId>edu.eci</groupId>
+    <artifactId>SecureDateServer</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 
 • Importe el proyecto en la clase que lo requiera:
-import edu.escuelaing.arep.*;
-
-___
-### Ejecutando las pruebas
-
-Para ejecutar las pruebas puede usar el comando:
->mvn package
-
-
+import edu.eci.*;
 ___
 ### Pruebas
-Para mostrar la correcta funcionalidad de la aplicación, se realizó una prueba manual.
-Primero se ingresaron los números separados por ','.
+Acontinuación se muestra la correcta funcionalidad de la aplicaciones desplegadas en AWS:
 
-![](src/main/resources/index.png)
+Ejecución de los archivos .jar
+![](deploy/12-conexion-dos-apps.png)
+ 
+SecureDistributedServer- Inicio
+![](deploy/3-inicioAWS.png)
+ 
+SecureDistributedServer-Registro
+![](deploy/5-registro-aws.png)
 
-A continuación, se puede ver el resultado generado una vez se dió clic en el botón Calcular.
+Generación del código hash de la contraseña al registrarse:
+![](deploy/13-registro.png)
+ 
 
-![](src/main/resources/calculo.png)
+SecureDistributedServer - Inicio de Sesión
+![](deploy/6-iniciosesion-aws.png)
+ 
+
+Comparación de códigos hash
+![](deploy/14-inicio-correcto.png) 
+ 
+
+SecureDistributedServer – Perfil
+![](deploy/7-perfil-aws.png)
+
+SecureDistributedServer - Ceritficado
+![](deploy/8-perfil-con-cert.png)
 ___
 ### Construido con
 
