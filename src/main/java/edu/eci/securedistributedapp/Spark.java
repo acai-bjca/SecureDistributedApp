@@ -161,7 +161,7 @@ public class Spark {
 
             public boolean verify(String hostname,
                     javax.net.ssl.SSLSession sslSession) {
-                if (hostname.equals("localhost")) {
+                if (hostname.equals("ec2-54-86-75-59.compute-1.amazonaws.com")) {
                     return true;
                 }
                 return false;
@@ -172,7 +172,7 @@ public class Spark {
     private static String getDateOfServer() throws IOException {
         String date = "";
         try {
-            URL url = new URL("https://localhost:4568");
+            URL url = new URL("https://ec2-54-86-75-59.compute-1.amazonaws.com:4568/");
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String dataLine = "";
             while ((dataLine = reader.readLine()) != null) {
