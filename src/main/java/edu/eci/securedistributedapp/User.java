@@ -6,7 +6,7 @@
 package edu.eci.securedistributedapp;
 
 /**
- *
+ * Clase usuario con su información general
  * @author amalia
  */
 public class User {

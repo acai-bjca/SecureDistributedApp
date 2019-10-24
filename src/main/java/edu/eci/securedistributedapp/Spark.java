@@ -24,7 +24,11 @@ public class Spark {
     private static Map<String, User> hashCodes = new HashMap<>();
     private static GFG sha = new GFG();
 
-    // View example at https://localhost:4567/secureHello
+    // View example at https://localhost:4567/
+    /**
+     * Recibe las peticiones del cliente, las procesa y da una respuesta
+     * @param args Parámetros de la clase principal
+     */
     public static void main(String[] args) {
         port(getPort());
         staticFiles.location("/static");
@@ -37,7 +41,7 @@ public class Spark {
         });
 
         get("/login", (request, response) -> {
-            return login(request, response);
+            return verificarUsuario(request, response);
         });
 
         get("/date", (request, response) -> {
@@ -51,6 +55,14 @@ public class Spark {
         });
     }
 
+    /**
+     * register Obtiene los datos del usuario del html. Verifica que no exista y
+     * crea un objeto que se almacenará en el hashmap de usuarios. La llave es
+     * el nombre de usuario y el valor es el objeto creado. La contraseña del
+     * usuario, guara el código hash de la contraseña ingresada.
+     *
+     * @param request Petición enviada para registrar un usuario
+     */
     private static void register(Request request) {
         String name = request.queryParams("name");
         String userName = request.queryParams("user");
@@ -66,7 +78,15 @@ public class Spark {
         }
     }
 
-    private static String login(Request request, Response response) {
+    /**
+     * verificarUsuario Verifica la contraseña ingresada del respectivo usuario,
+     * generando un código hash de la misma y comparándolo con el registrado
+     * Si es válido muestra el perfil del usuario, de lo contrario muestra un error.
+     * @param request Petición enviada pro el cliente para iniciar sesión.
+     * @param response Se usa para redirigir al html notFound, cuando no se encuentra el usuario
+     * @return Cadena con código  html del perfil del usuario
+     */
+    private static String verificarUsuario(Request request, Response response) {
         System.out.println("Entro a iicar sesion");
         String perfil = "";
         String userName = request.queryParams("userName");
@@ -86,6 +106,11 @@ public class Spark {
         return perfil;
     }
 
+    /**
+     * getProfile Devuelve el código html del perfil de usuario con sus datos registrados
+     * @param user Objeto con la información del usuario
+     * @return Cadena con el código html
+     */
     private static String getProfile(User user) {
         java.util.Date fecha = new Date();
         String profileHtml = "<!DOCTYPE html>\n"
@@ -154,6 +179,9 @@ public class Spark {
         return profileHtml;
     }
 
+    /**
+     * Permite la conexión con otro servidor con seguridad
+     */
     static {
         //for localhost testing only
         javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
@@ -169,6 +197,11 @@ public class Spark {
         });
     }
 
+    /**
+     * getDateOfServer Devuelve la fecha haciendo uso del servicio prestado por el servidor SecureDateServer
+     * @return Cadena on la fecha tomada del servidor
+     * @throws IOException Excepción al leer los datos obtenidos
+     */
     private static String getDateOfServer() throws IOException {
         String date = "";
         try {
@@ -188,6 +221,10 @@ public class Spark {
         return date;
     }
 
+    /**
+     * getPort Devuelte el puerto por  el qu se comunca la aplicación
+     * @return Número entero con el puerto
+     */
     static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));

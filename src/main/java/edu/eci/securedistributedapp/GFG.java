@@ -5,19 +5,29 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-// Java program to calculate SHA hash value  
+// Algoritmo de SHA que genera código hash 
 public class GFG {
-
+    /**
+     * Genera código hash con algoritmo SHA
+     * @param input Cadena a convertir
+     * @return Arreglo de buytes con código hash
+     * @throws NoSuchAlgorithmException Excepcion al usar el algoritmo
+     */
     public byte[] getSHA(String input) throws NoSuchAlgorithmException {
-        // Static getInstance method is called with hashing SHA  
+        //Se llama al método getInstance estático con hashing SHA
         MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-        // digest() method called  
-        // to calculate message digest of an input  
-        // and return array of byte 
+        //método digest() llamado
+        //para calcular el resumen del mensaje de una entrada
+        //y devuelve una matriz de bytes
         return md.digest(input.getBytes(StandardCharsets.UTF_8));
     }
 
+    /**
+     * toHexString Convierte un array de bytes a hexadecimal
+     * @param hash Arreglo de bytes a convertir
+     * @return Cadena con la conversión en hexadecimal
+     */
     public String toHexString(byte[] hash) {
         // Convert byte array into signum representation  
         BigInteger number = new BigInteger(1, hash);
@@ -33,7 +43,11 @@ public class GFG {
         return hexString.toString();
     }
 
-    // Driver code  
+    /**
+     * convert Convierte una cadena en un código hash
+     * @param password Cadena a  convertir
+     * @return Cadena con código hash
+     */
     public String convert(String password) {
         String passwordHash = "";
         try {
@@ -45,6 +59,6 @@ public class GFG {
         catch (NoSuchAlgorithmException e) {
             System.out.println("Exception thrown for incorrect algorithm: " + e);
         }
-        return passwordHash ;
+        return passwordHash;
     }
 }
