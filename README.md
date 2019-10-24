@@ -42,6 +42,10 @@ Si desea usar alguno de los dos repositorios como librería en su proyecto, real
 • Importe el proyecto en la clase que lo requiera:
 import edu.eci.*;
 ___
+### Documentación
+La documentación del repositorio la puede encontrar en: <https://github.com/acai-bjca/SecureDistributedApp/tree/master/src/main/resources/static/documentacion/apidoc>
+
+___
 ### Pruebas
 Acontinuación se muestra la correcta funcionalidad de la aplicaciones desplegadas en AWS:
 
